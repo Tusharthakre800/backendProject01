@@ -1,7 +1,7 @@
 
 const mongoose = require("mongoose")
 
-mongoose.connect(`mongodb+srv://tusharthakre800:tusharthakre800@cluster1.r059i.mongodb.net/`)
+mongoose.connect(process.env.MONGO_DB)
 
 
 const useraSchema  = mongoose.Schema({
