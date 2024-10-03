@@ -3,8 +3,6 @@ const app = express()
 const postmodel =require ("./model/post")
 const usermodel =require ("./model/user")
 
-const {dbconnect} = require("./dbconeection")
-
 const cookieparser= require("cookie-parser")
 const bcrypt= require("bcrypt")
 const jwt =require("jsonwebtoken")
