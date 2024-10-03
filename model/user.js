@@ -1,7 +1,7 @@
 
 const mongoose = require("mongoose")
 
-mongoose.connect(process.env.MONGODBPORT)
+mongoose.connect(`mongodb://127.0.0.1:27017/miniproject`)
 
 
 const useraSchema  = mongoose.Schema({
