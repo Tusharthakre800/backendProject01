@@ -144,8 +144,7 @@ app.get("/logout",(req,res)=>{
 console.log(process.env.myname);
 
 const PORT =  process.env.PORT || 5000
-const db_url = "mongodb+srv://tusharthakre800:tusharthakre800@cluster1.r059i.mongodb.net/"
-dbconnect(db_url)
+
 
 
 app.listen(PORT,()=>{
