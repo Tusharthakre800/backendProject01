@@ -3,6 +3,8 @@ const app = express()
 const postmodel =require ("./model/post")
 const usermodel =require ("./model/user")
 
+const {dbconnect} = require("./dbconeection")
+
 const cookieparser= require("cookie-parser")
 const bcrypt= require("bcrypt")
 const jwt =require("jsonwebtoken")
@@ -142,10 +144,12 @@ app.get("/logout",(req,res)=>{
 console.log(process.env.myname);
 
 const PORT =  process.env.PORT || 5000
+const db_url = "mongodb+srv://tusharthakre800:tusharthakre800@cluster1.r059i.mongodb.net/"
+dbconnect(db_url)
 
 
 app.listen(PORT,()=>{
-    console.log("bhai server start ho gya hai port 3000");
+    console.log(`bhai server start ho gya hai port ${PORT}`);
     
 })
 
