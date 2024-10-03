@@ -13,6 +13,9 @@ const post = require("./model/post")
 const upload = require("./config/multer")
 const { log } = require("console")
 
+const env = require("dotenv")
+require('dotenv').config({ path: 'ENV_FILENAME' });
+
 
 app.set("view engine","ejs")
 app.use(express.json())
