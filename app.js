@@ -91,7 +91,7 @@ app.post("/register",async (req,res)=>{
     const{email,username,name,password,age}=req.body
     const user =  await usermodel.findOne({email})
     if(user) return res.status(500).send("user already resiteger");
-    req.redirect("/login")
+    res.redirect("/login")
     
     bcrypt.genSalt(10,(err,salt)=>{
         bcrypt.hash(password,salt, async (err,hash)=>{
