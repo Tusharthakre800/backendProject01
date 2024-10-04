@@ -12,6 +12,7 @@ const useraSchema  = mongoose.Schema({
     password : String,
     profilepic:{
         type:String,
+        
         default:"default.png"
     },
     post:[
