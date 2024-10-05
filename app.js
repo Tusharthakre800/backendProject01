@@ -76,6 +76,14 @@ app.post("/update/:id", isloggedin, async(req,res)=>{
    res.redirect("/profile")
   
 })
+
+app.get("/erase/:id", isloggedin, async(req,res)=>{
+   const post =  await postmodel.findOneAndDelete({_id: req.params.id})
+   res.redirect("/profile") 
+})
+
+
+
 app.post("/post", isloggedin, async(req,res)=>{
    const user =  await usermodel.findOne({email:req.user.email})
    const{content}=req.body
@@ -139,7 +147,7 @@ app.get("/logout",(req,res)=>{
         else{
     const data = jwt.verify(req.cookies.token,"tushar")
     req.user =  data
-    next()
+    next()  
 }
     }
 
