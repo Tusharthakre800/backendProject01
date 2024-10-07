@@ -3,6 +3,9 @@ const app = express()
 const postmodel =require ("./model/post")
 const usermodel =require ("./model/user")
 
+const flash = require("connect-flash")
+const session = require("express-session")
+
 const cookieparser= require("cookie-parser")
 const bcrypt= require("bcrypt")
 const jwt =require("jsonwebtoken")
@@ -22,6 +25,15 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(path.join(__dirname,"public")))
 app.use(cookieparser())
+
+app.use(session({ 
+    secret: "tushar",
+    cookie: {maxage: 300000},
+    resave: false,
+    saveUninitialized: false,
+    
+}))
+app.use(flash())
 
 
 
@@ -98,7 +110,7 @@ app.post("/post", isloggedin, async(req,res)=>{
 app.post("/register",async (req,res)=>{
     const{email,username,name,password,age}=req.body
     const user =  await usermodel.findOne({email})
-    if(user) return res.status(500).send("user already resiteger");
+    if(user) return res.status(500).send("user already exist");
     res.redirect("/login")
     
     bcrypt.genSalt(10,(err,salt)=>{
@@ -140,6 +152,27 @@ app.get("/logout",(req,res)=>{
     res.redirect("/login")
 
     })
+
+app.get("/forgotpasswords",(req,res)=>{  
+    res.render("forgotpasswords")
+})
+
+app.post("/password/forgot",async(req,res)=>{  
+    const {email,password}=req.body
+    const user = await usermodel.findOne({email})
+    if(!user) return res.status(500).send("something went wrong");
+    bcrypt.genSalt(10,(err,salt)=>{
+        bcrypt.hash(password,salt, async (err,hash)=>{
+            user.password = hash
+            await user.save()
+            res.redirect("/login")
+        })
+    })
+    
+
+    
+    
+})
 
 
     function isloggedin (req,res,next){
