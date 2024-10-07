@@ -147,11 +147,7 @@ app.post("/login",async (req,res)=>{
 })
 
 
-app.get("/logout",(req,res)=>{
-    res.cookie("token","")
-    res.redirect("/login")
 
-    })
 
 app.get("/forgotpasswords",(req,res)=>{  
     res.render("forgotpasswords")
@@ -173,6 +169,12 @@ app.post("/password/forgot",async(req,res)=>{
     
     
 })
+
+app.get("/logout",(req,res)=>{
+    res.cookie("token","")
+    res.redirect("/login")
+
+    })
 
 
     function isloggedin (req,res,next){
