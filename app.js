@@ -110,8 +110,8 @@ app.post("/post", isloggedin, async(req,res)=>{
 app.post("/register",async (req,res)=>{
     const{email,username,name,password,age}=req.body
     const user =  await usermodel.findOne({email})
-    if(user) return res.status(500).send("user already exist");
-    res.redirect("/login")
+    if(user) return res.status(400).send("user already exist");
+    // res.redirect("/login")
     
     bcrypt.genSalt(10,(err,salt)=>{
         bcrypt.hash(password,salt, async (err,hash)=>{
