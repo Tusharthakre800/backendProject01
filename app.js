@@ -35,9 +35,6 @@ app.use(session({
 }))
 app.use(flash())
 
-
-
-
 app.get("/",(req,res)=>{
 res.render("index")
 })
@@ -52,8 +49,6 @@ app.post("/upload",isloggedin,upload.single("image"),async (req,res)=>{
        res.redirect("/profile")
     
     })
-
-
 app.get("/login" , (req,res)=>{
 res.render("login")
 })
@@ -93,8 +88,6 @@ app.get("/erase/:id", isloggedin, async(req,res)=>{
    const post =  await postmodel.findOneAndDelete({_id: req.params.id})
    res.redirect("/profile") 
 })
-
-
 
 app.post("/post", isloggedin, async(req,res)=>{
    const user =  await usermodel.findOne({email:req.user.email})
@@ -146,9 +139,6 @@ app.post("/login",async (req,res)=>{
     
 })
 
-
-
-
 app.get("/forgotpasswords",(req,res)=>{  
     res.render("forgotpasswords")
 })
@@ -170,15 +160,30 @@ app.post("/password/forgot",async(req,res)=>{
     
 })
 
+app.get("/userinfoedit/:id",isloggedin,async(req,res)=>{
+   const user =  await usermodel.findOne({_id: req.params.id})
+   res.render("usereditpage",{user})
+})
+app.post("/user/useredit/:id",isloggedin,async(req,res)=>{
+    const {name,username,age}=req.body
+    const user =  await usermodel.findOneAndUpdate({_id: req.params.id},{name,username,age},{new:true})
+    await user.save()
+    res.redirect("/profile")
+})
+
 app.get("/logout",(req,res)=>{
     res.cookie("token","")
     res.redirect("/login")
 
     })
 
+app.get("*",(req,res)=>{
+    res.render("404")
+})
+    
 
     function isloggedin (req,res,next){
-        if(req.cookies.token==="") res.redirect("login")
+        if(req.cookies.token==="") res.redirect("/login")
         else{
     const data = jwt.verify(req.cookies.token,"tushar")
     req.user =  data
